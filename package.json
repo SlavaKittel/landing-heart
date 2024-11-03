@@ -1,0 +1,44 @@
+{
+  "name": "slavakittel-portfolio",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "yarn dev"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^18.2.7",
+    "@types/three": "^0.167.2",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@typescript-eslint/parser": "^6.6.0",
+    "@vitejs/plugin-react": "3.0",
+    "eslint": "^8.48.0",
+    "eslint-plugin-react": "^7.33.2",
+    "typescript": "^5.1.6",
+    "vite": "^4.0.4"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.0",
+    "@react-three/csg": "^3.1.0",
+    "@react-three/drei": "^9.88.13",
+    "@react-three/fiber": "^8.13.3",
+    "@react-three/postprocessing": "^2.15.8",
+    "glsl-noise": "^0.0.0",
+    "glslify": "^7.1.1",
+    "gsap": "^3.12.5",
+    "leva": "^0.9.35",
+    "r3f-perf": "^7.1.2",
+    "react": "18.2",
+    "react-device-detect": "^2.2.3",
+    "react-dom": "18.2",
+    "styled-components": "^6.0.8",
+    "three": "^0.153.0"
+  },
+  "browserify": {
+    "transform": [
+      "glslify"
+    ]
+  }
+}
