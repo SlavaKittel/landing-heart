@@ -2,6 +2,6 @@
 
 Go to the https://www.slavakittel.com/ 
 
-start project: yartn start
+start project: yarn start
 
 start build: npm run build
