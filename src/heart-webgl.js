@@ -77,20 +77,20 @@ function loadModel(callback) {
       heartSkeleton.children[0].material.opacity = 0.5;
       heartSkeleton.children[0].material.color = new THREE.Color(0x000000);
       scene.add(heartSkeleton);
-      // loadingScreen.style.display = "none"; // Hide loading screen when done
+      loadingScreen.style.display = "none"; // Hide loading screen when done
       if (callback) callback(heartSkeleton);
     },
-    // function (xhr) {
-    //   const progress = (xhr.loaded / xhr.total) * 100;
-    //   progressBar.style.width = progress + "%";
-    //   progressText.textContent = Math.round(progress) + "%";
+    function (xhr) {
+      const progress = (xhr.loaded / xhr.total) * 100;
+      progressBar.style.width = progress + "%";
+      progressText.textContent = Math.round(progress) + "%";
 
-    //   // Optional: Monitor progress
-    //   console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-    // },
-    // function (error) {
-    //   console.error("An error happened", error);
-    // }
+      // Optional: Monitor progress
+      console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    },
+    function (error) {
+      console.error("An error happened", error);
+    }
   );
 }
 
