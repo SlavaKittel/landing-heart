@@ -63,24 +63,24 @@ export default function GsapApp() {
         opacity: 0,
         y: 300,
       });
-      gsap.to(".ecg1", {
-        scrollTrigger: {
-          trigger: ".ecg1",
-          start: "top 100%",
-          end: "bottom 0",
-          scrub: true,
-        },
-        x: -1000,
-      });
-      gsap.to(".ecg2", {
-        scrollTrigger: {
-          trigger: ".ecg2",
-          start: "top 100%",
-          end: "bottom 0",
-          scrub: true,
-        },
-        x: 1000,
-      });
+      // gsap.to(".ecg1", {
+      //   scrollTrigger: {
+      //     trigger: ".ecg1",
+      //     start: "top 100%",
+      //     end: "bottom 0",
+      //     scrub: true,
+      //   },
+      //   x: -1000,
+      // });
+      // gsap.to(".ecg2", {
+      //   scrollTrigger: {
+      //     trigger: ".ecg2",
+      //     start: "top 100%",
+      //     end: "bottom 0",
+      //     scrub: true,
+      //   },
+      //   x: 1000,
+      // });
       // gsap.to(".flower-heart1", {
       //   scrollTrigger: {
       //     trigger: ".flower-heart1",
@@ -113,21 +113,27 @@ export default function GsapApp() {
 
   return (
     <GsapAppStyled ref={gsapContainer}>
+      {/* <div className="loader">
+        Loading...<span id="progress-text">0%</span>
+        <div id="progress-container">
+          <div id="progress-bar"></div>
+        </div>
+      </div> */}
       <ParticlesHeartAppStyled id="heart-app" />
       <div className="first-text-block">
         <div className="text1">knock knock knock</div>
         <div className="text2">knock knock knock</div>
         <div className="text3">knock knock knock</div>
       </div>
-      <div className="ecg1">
-        {/* <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
+      {/* <div className="ecg1">
         <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
         <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
         <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
         <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
         <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
-        <img src="/img/ecg.svg" alt="ecg" height="100" className="" /> */}
-      </div>
+        <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
+        <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
+      </div> */}
       <div className="image-container">
         {/* <img
           src="/img/real-heart1.svg"
@@ -136,7 +142,7 @@ export default function GsapApp() {
           height="500"
           className="drift-car"
         /> */}
-        <img
+        {/* <img
           src="/img/flower-heart.svg"
           alt="flower-heart1"
           width="500"
@@ -149,15 +155,15 @@ export default function GsapApp() {
           width="500"
           height="500"
           className="flower-heart"
-        />
+        /> */}
       </div>
-      <div className="ecg2">
-        {/* <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
+      {/* <div className="ecg2">
         <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
         <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
         <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
-        <img src="/img/ecg.svg" alt="ecg" height="100" className="" /> */}
-      </div>
+        <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
+        <img src="/img/ecg.svg" alt="ecg" height="100" className="" />
+      </div> */}
       <div className="contact-me-block">
         <div className="contact-me" onClick={onClickHandler}>
           contact me
@@ -184,11 +190,11 @@ export const ParticlesHeartAppStyled = styled.div`
 
 export const GsapAppStyled = styled.div`
   /* Loading screen styling */
-  #loader {
+  .loader {
     position: absolute;
     width: 100vw;
     height: 100vh;
-    background: rgba(49, 29, 29, 0.1);
+    background: rgba(49, 29, 29);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -215,8 +221,7 @@ export const GsapAppStyled = styled.div`
     height: 100%;
   }
 
-  background-color: #ceeeef;
-  height: 321vh;
+  height: 300vh;
   width: 100%;
   font-family: "Bebas Neue", sans-serif;
   font-weight: 400;
@@ -227,7 +232,6 @@ export const GsapAppStyled = styled.div`
     justify-content: center;
     align-items: center;
     height: 100vh;
-    color: #ffe8e8b9;
     .text1 {
       font-size: 80px;
     }
