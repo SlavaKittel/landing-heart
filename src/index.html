@@ -22,8 +22,6 @@
   </head>
   <style type="text/css" media="screen">
     html {
-      width: 100%;
-      height: 100%;
       touch-action: pan-y;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
@@ -33,30 +31,215 @@
       user-select: none;
     }
     body {
-      height: 100%;
+      background-color: #000;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       -khtml-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
-      overflow: scroll;
-      touch-action: pan-y;
       margin: 0;
+      overflow: hidden;
     }
-    canvas {
-      touch-action: none;
+
+    /* Loading screen styling */
+    .loader {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: rgb(0, 0, 0);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      bottom: 0vh;
+      transition: bottom 0.35s ease-in-out;
+      #progress-container {
+        width: 50%;
+        height: 5px;
+        background-color: rgb(255, 142, 142);
+        border-radius: 5px;
+        position: relative;
+        top: -120px;
+      }
+      #progress-bar {
+        background: #e80000;
+        width: 0%;
+        height: 100%;
+        transition: width 2s ease-in-out;
+        border-radius: 5px;
+      }
+    }
+
+    /* Heart model */
+    section.heart-app {
+      position: fixed;
+      top: 0;
+      left: 0;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      touch-action: auto;
+      canvas {
+        position: fixed;
+        overflow: hidden;
+        display: block;
+      }
+      canvas.mobile {
+        width: unset;
+        height: unset;
+      }
+      canvas.desktop {
+        width: 100vw !important;
+        height: 100vh !important;
+      }
+    }
+
+    /* Landign page */
+    section.landing-page {
+      width: 100%;
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      z-index: 1;
+      text-shadow: -5px 5px 0 #252525, 1px 1px 0 #252525, 1px -1px 0 #252525,
+        -1px -1px 0 #252525;
+      position: relative;
+      overflow-y: scroll;
+      color: #e7bebe;
+      .first-text-block {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        .wrapper-knocks {
+          display: flex;
+          justify-content: center;
+          height: 90px;
+          width: 100%;
+          overflow: hidden;
+          .knock-one {
+            font-size: 80px;
+            position: relative;
+            bottom: -120px;
+          }
+          .knock-two {
+            font-size: 80px;
+            position: relative;
+            bottom: -120px;
+          }
+          .knock-three {
+            font-size: 80px;
+            position: relative;
+            bottom: -120px;
+          }
+        }
+      }
+      .contact-me-block {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        .wrapper-contact-me {
+          display: flex;
+          justify-content: center;
+          height: 90px;
+          width: 100%;
+          overflow: hidden;
+          margin-bottom: 30px;
+          .contact-me {
+            position: relative;
+            bottom: -120px;
+            cursor: pointer;
+            font-size: 80px;
+          }
+        }
+        .icons {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 20px;
+          .linkeidin-svg {
+            cursor: pointer;
+            position: relative;
+            right: 100px;
+            top: 30px;
+            opacity: 0;
+          }
+          .github-svg {
+            cursor: pointer;
+            position: relative;
+            left: 100px;
+            top: 30px;
+            opacity: 0;
+          }
+        }
+      }
     }
   </style>
   <body>
-    <!-- <div id="loader">
-      Loading...<span id="progress-text">0%</span>
+    <div id="loader" class="loader">
+      <canvas
+        id="dotlottie-canvas"
+        class="heart-lottie"
+        style="width: 300px; height: 300px; margin-bottom: 60px"
+      ></canvas>
       <div id="progress-container">
         <div id="progress-bar"></div>
       </div>
-    </div> -->
-    <div id="root"></div>
+    </div>
+
+    <section class="landing-page">
+      <div data-scroll-container>
+        <div class="first-text-block">
+          <div class="wrapper-knocks">
+            <div class="knock-one">knock knock knock</div>
+          </div>
+          <div class="wrapper-knocks">
+            <div class="knock-two">knock knock knock</div>
+          </div>
+          <div class="wrapper-knocks">
+            <div class="knock-three">knock knock knock</div>
+          </div>
+        </div>
+        <div class="contact-me-block">
+          <div class="wrapper-contact-me">
+            <div class="contact-me">contact me</div>
+          </div>
+          <div class="icons">
+            <div class="linkeidin-svg">
+              <img
+                src="img/linkiedin.svg"
+                alt="linkeidin-svg"
+                width="100"
+                height="100"
+                onclick="window.open('https://www.linkedin.com/in/slavakittel/', '_blank')"
+              />
+            </div>
+            <div class="github-svg">
+              <img
+                src="img/github.svg"
+                alt="github-svg"
+                width="100"
+                height="100"
+                onclick="window.open('https://github.com/SlavaKittel', '_blank')"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="heart-app">
+      <div id="heart-app" />
+    </section>
+    <script type="module" src="./heart-webgl.js"></script>
   </body>
-  <script type="module" src="./index.tsx"></script>
-  <script type="module" src="./heart-webgl.js"></script>
 </html>

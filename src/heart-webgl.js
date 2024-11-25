@@ -1,31 +1,22 @@
 import * as THREE from "three";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
 
 import vertexShader from "./shaders/vertex.glsl?raw";
 import fragmentShader from "./shaders/fragment.glsl?raw";
 
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-gsap.registerPlugin(ScrollTrigger);
+
+import { DotLottie } from "@lottiefiles/dotlottie-web";
 
 // Variables
 const width = window.innerWidth;
 const height = window.innerHeight;
-let time = 0;
-let lastTime = 0;
-let newScrollLerp = 0;
-const lerpFactor = 0.08;
-let stopMouse = 0;
-let timeoutMouse;
-let instancedMeshHeart;
-let heartSkeleton;
-let start = 0;
-// let targetStart = 1;
 
-const newCameraPosition = new THREE.Vector3();
-const loader = new GLTFLoader();
-// const loader = new GLTFLoader(loadingManager);
+// Prevent scroll on refresh
+window.onbeforeunload = function () {
+  console.log("dotLottie");
+  window.scrollTo(0, 0);
+};
 
 // Scene and Camera
 const scene = new THREE.Scene();
@@ -54,28 +45,43 @@ let marker = new THREE.Mesh(
 );
 // scene.add(marker);
 
-// const loadingScreen = document.getElementById("loader");
-// const progressBar = document.getElementById("progress-bar");
-// const progressText = document.getElementById("progress-text");
-// console.log(loadingScreen, progressBar, progressText);
+// Loading Manager
+const loadingScreen = document.getElementById("loader");
+const progressBar = document.getElementById("progress-bar");
 
-// // Loading Manager
-// const loadingManager = new THREE.LoadingManager();
-// loadingManager.onStart = function ( url, itemsLoaded, itemsTotal ) {
-// 	// console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
-// };
-// loadingManager.onLoad = function ( ) {
-//   console.log( 'Loading complete!');
-//   console.log(loadingScreen);
-//   // loadingScreen.style.display = "none";
-// };
+const loadingManager = new THREE.LoadingManager();
+loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
+  const progress = (itemsLoaded / itemsTotal) * 100;
+  progressBar.style.width = progress + "%";
+};
+loadingManager.onStart = function (url, itemsLoaded, itemsTotal) {
+  new DotLottie({
+    autoplay: true,
+    loop: true,
+    canvas: document.querySelector("#dotlottie-canvas"),
+    src: "/gif/heart-gif-red.json",
+  });
+};
+loadingManager.onLoad = function () {
+  setTimeout(() => {
+    loadingScreen.style.bottom = "100vh";
+    document.body.style.overflow = "visible";
+
+    const script = document.createElement("script");
+    script.src = "./gsap.js";
+    script.type = "module";
+    document.body.appendChild(script);
+    script.onload;
+  }, 2000);
+};
 
 const uniforms = {
+  // rename on uColor and uMousePos
   color: { value: new THREE.Color(0xff0000) },
   mousePos: { value: new THREE.Vector3() },
+  uMouseTransition: { value: 0 },
   // TODO create delta on Time
   uTime: { type: "f", value: 0 },
-  uStopMouse: { value: null },
   uLightDirection: { value: new THREE.Vector3(0.1, 0.0, 0.0).normalize() },
   uAmbientLightColor: { value: new THREE.Color(0xff0000) },
   uMetalness: { value: 0.5 },
@@ -93,7 +99,51 @@ const instancedGeometry = new THREE.InstancedBufferGeometry().copy(
   icosahedronGeometry
 );
 
+// Mobile Device
+function getMobileDevice() {
+  const userAgent = navigator.userAgent || window.opera;
+  return /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+    userAgent.toLowerCase()
+  );
+}
+
+// TODO add stop mouse
+let isMouseOnModel = false;
+let isMouseMoving = false;
+let mouseOnModelTimer;
+let mouseMovingTimer;
+
+document.addEventListener("touchmove", () => {
+  if (!isMouseMoving) isMouseMoving = true;
+  clearTimeout(mouseMovingTimer);
+  mouseMovingTimer = setTimeout(() => (isMouseMoving = false), 100);
+});
+document.addEventListener("pointermove", () => {
+  if (!isMouseMoving) isMouseMoving = true;
+  clearTimeout(mouseMovingTimer);
+  mouseMovingTimer = setTimeout(() => (isMouseMoving = false), 100);
+});
+
+let mouseValue = 0;
+let direction = 1;
+let speed = 0.35;
+
+function getUpdateMouseValue(state) {
+  const progressDelta = direction * speed;
+  const boost = 4;
+
+  if (!state && mouseValue >= 0) {
+    direction = -1;
+    mouseValue += Number(progressDelta.toFixed(1));
+  } else if (state && mouseValue <= 100) {
+    direction = 1;
+    mouseValue += Number((progressDelta * boost).toFixed(1));
+  }
+}
+
 // Raycaster
+let heartSkeleton;
+
 const raycaster = new THREE.Raycaster();
 const pointerCoords = new THREE.Vector2();
 function renderIntersects() {
@@ -104,30 +154,36 @@ function renderIntersects() {
   if (intersects.length > 0) {
     let { x, y, z } = intersects[0].point;
     marker.position.set(x, y, z);
+    isMouseOnModel = true;
+    clearTimeout(mouseOnModelTimer);
+    mouseOnModelTimer = setTimeout(() => (isMouseOnModel = false), 100);
   }
   renderer.render(scene, camera);
 }
 
-
-// TODO add stop mouse
-function mouseStop() {
-  // start = THREE.MathUtils.damp(1, 0, 10, deltaTime);
-}
-
-// Mouse Move
+// Pointer Move
 function onPointerMove(event) {
+  if (getMobileDevice()) {
+    const touch = event.touches[0];
+    pointerCoords.x = (touch.clientX / window.innerWidth) * 2 - 1;
+    pointerCoords.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+    return;
+  }
   pointerCoords.x = (event.clientX / window.innerWidth) * 2 - 1;
   pointerCoords.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
-window.addEventListener("pointermove", (e) => {
-  start = 1;
-  if (timeoutMouse) clearTimeout(timeoutMouse);
-  timeoutMouse = setTimeout(mouseStop, 300);
-  onPointerMove(e);
+window.addEventListener("pointermove", (event) => {
+  onPointerMove(event);
+});
+document.addEventListener("touchmove", (event) => {
+  onPointerMove(event);
 });
 
-
 // Load GLB -Inside- Heart Geometry and -Instanced- Heart Mesh
+const loader = new GLTFLoader(loadingManager);
+
+let instancedMeshHeart;
+
 loader.load(
   "./glb-models/real-heart-frame.glb",
   function (gltf) {
@@ -138,8 +194,6 @@ loader.load(
     heartSkeleton.children[0].material.opacity = 0.5;
     heartSkeleton.children[0].material.color = new THREE.Color(0x000000);
     scene.add(heartSkeleton);
-    // TODO add loading screen
-    // loadingScreen.style.display = "none"; // Hide loading screen when done
 
     // Position and scale of -Inside- Heart Geometry
     const heartGeometry = heartSkeleton.children[0].geometry;
@@ -154,7 +208,7 @@ loader.load(
     const meshPoints = new THREE.Points(mergedHeartGeometry, shaderMaterial);
     const positionAttribute = meshPoints.geometry.attributes.position;
     const instancedCount = positionAttribute.count;
-    
+
     // -Instanced- Mesh Heart
     instancedMeshHeart = new THREE.InstancedMesh(
       instancedGeometry,
@@ -205,9 +259,9 @@ loader.load(
   // }
 );
 
-
 // Resize
 window.addEventListener("resize", () => {
+  if (getMobileDevice()) return;
   const w = window.innerWidth;
   const h = window.innerHeight;
   camera.aspect = w / h;
@@ -221,9 +275,19 @@ const renderer = new THREE.WebGLRenderer({
   powerPreference: "high-performance",
 });
 renderer.setSize(width, height);
+function getDeviceType() {
+  return getMobileDevice() ? "mobile" : "desktop";
+}
+renderer.domElement.classList.add(getDeviceType());
 window.onload = () => {
   document.getElementById("heart-app")?.appendChild(renderer.domElement);
 };
+
+let time = 0;
+let lastTime = 0;
+let newScrollLerp = 0;
+const lerpFactor = 0.08;
+const newCameraPosition = new THREE.Vector3();
 
 function animate() {
   requestAnimationFrame(animate);
@@ -234,6 +298,8 @@ function animate() {
   time = performance.now() * 0.0006;
   const deltaTime = time - lastTime;
   lastTime = time;
+
+  getUpdateMouseValue(isMouseMoving && isMouseOnModel);
 
   const markerMouse = marker.position.clone();
   for (const k in markerMouse) {
@@ -247,9 +313,10 @@ function animate() {
   }
 
   // Uniforms
+  // deltaTime for 0.01 ??
   uniforms.uTime.value += 0.01;
   uniforms.mousePos.value.copy(vMarkerMouseDamp);
-  uniforms.uStopMouse.value = stopMouse;
+  uniforms.uMouseTransition.value = mouseValue;
 
   // Render intersects
   window.requestAnimationFrame(renderIntersects);

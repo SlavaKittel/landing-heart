@@ -4,9 +4,9 @@ attribute vec3 instanceRotation;
 attribute float instanceScale;
 
 uniform vec3 mousePos;
-uniform bool uStopMouse;
 uniform float uTime;
 uniform float uSize;
+uniform float uMouseTransition;
 
 varying vec3 vNormal;
 
@@ -123,8 +123,9 @@ void main() {
   instanceTransformed += cnoise(instanceTransformed * uTime * 0.5) * 0.02;
   instanceTransformed.z += cnoise(instanceTransformed * uTime * 0.5) * 0.02;
   if (dist > 0.){
+    float koeffMouseTransition = 70.;
     float force = clamp(5. / (dist * dist * dist), 0., 1.);
-    transformed += dir * force * 1.;
+    transformed += dir * force * uMouseTransition / koeffMouseTransition;
   }
 
   vec4 mvPosition = modelViewMatrix * vec4(transformed, 1.0 );
