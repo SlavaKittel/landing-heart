@@ -7,6 +7,7 @@ import fragmentShader from "./shaders/fragment.glsl?raw";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 import { DotLottie } from "@lottiefiles/dotlottie-web";
+import { initGSAPAnimations } from "./gsap";
 
 // Variables
 const width = window.innerWidth;
@@ -57,11 +58,7 @@ loadingManager.onLoad = function () {
     loadingScreen.style.bottom = "100vh";
     document.body.style.overflow = "visible";
 
-    const script = document.createElement("script");
-    script.src = "gsap.js";
-    script.type = "module";
-    document.body.appendChild(script);
-    script.onload;
+    initGSAPAnimations();
   }, 2000);
 };
 
