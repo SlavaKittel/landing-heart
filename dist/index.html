@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content"
+    />
+    <link rel="icon" type="image" href="./img/s-logo.svg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Saira:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+      rel="stylesheet"
+    />
+    <title>Your langing page</title>
+    <script type="module" crossorigin src="./assets/index-0ad82235.js"></script>
+  </head>
+  <style type="text/css" media="screen">
+    html.lenis,
+    html.lenis body {
+      height: auto;
+    }
+
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+
+    .lenis.lenis-stopped {
+      overflow: clip;
+    }
+
+    .lenis.lenis-smooth iframe {
+      pointer-events: none;
+    }
+
+    html {
+      touch-action: pan-y;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    body {
+      background-color: #000;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    /* Loading screen styling */
+    .loader {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: rgb(0, 0, 0);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      bottom: 0vh;
+      transition: bottom 0.35s ease-in-out;
+      #progress-container {
+        width: 50%;
+        height: 5px;
+        background-color: rgb(255, 142, 142);
+        border-radius: 5px;
+        position: relative;
+        top: -120px;
+      }
+      #progress-bar {
+        background: #e80000;
+        width: 0%;
+        height: 100%;
+        transition: width 2s ease-in-out;
+        border-radius: 5px;
+      }
+    }
+
+    /* Heart model */
+    section.heart-app {
+      position: fixed;
+      top: 0;
+      left: 0;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      touch-action: auto;
+      canvas {
+        position: fixed;
+        overflow: hidden;
+        display: block;
+      }
+      canvas.mobile {
+        width: unset;
+        height: unset;
+      }
+      canvas.desktop {
+        width: 100vw !important;
+        height: 100vh !important;
+      }
+    }
+
+    /* Landign page */
+    section.landing-page {
+      width: 100%;
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      z-index: 1;
+      text-shadow: -5px 5px 0 #252525, 1px 1px 0 #252525, 1px -1px 0 #252525,
+        -1px -1px 0 #252525;
+      position: relative;
+      overflow-y: scroll;
+      color: #e7bebe;
+      .first-text-block {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        .wrapper-knocks {
+          display: flex;
+          justify-content: center;
+          height: 90px;
+          width: 100%;
+          overflow: hidden;
+          .knock-one {
+            font-size: 80px;
+            position: relative;
+            bottom: -120px;
+          }
+          .knock-two {
+            font-size: 80px;
+            position: relative;
+            bottom: -120px;
+          }
+          .knock-three {
+            font-size: 80px;
+            position: relative;
+            bottom: -120px;
+          }
+        }
+      }
+      .pictures {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        max-width: 100%;
+        overflow: hidden;
+        .picture-one {
+          position: relative;
+          height: 60%;
+          max-width: 80%;
+          aspect-ratio: 3 / 4;
+          object-fit: cover;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgb(0, 0, 0, 0.6);
+          overflow: hidden;
+          border: solid #e7bebe;
+          border-width: thick;
+          border-radius: 10px;
+          box-sizing: border-box;
+          rotate: 15deg;
+          img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
+        .picture-two {
+          position: absolute;
+          height: 60%;
+          max-width: 80%;
+          aspect-ratio: 3 / 4;
+          object-fit: cover;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgb(0, 0, 0, 0.6);
+          overflow: hidden;
+          border: solid #e7bebe;
+          border-width: thick;
+          border-radius: 10px;
+          box-sizing: border-box;
+          rotate: 0deg;
+          img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
+      }
+      .contact-me-block {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        .wrapper-contact-me {
+          display: flex;
+          justify-content: center;
+          height: 90px;
+          width: 100%;
+          overflow: hidden;
+          margin-bottom: 30px;
+          .contact-me {
+            position: relative;
+            bottom: -120px;
+            cursor: pointer;
+            font-size: 80px;
+          }
+        }
+        .icons {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 20px;
+          .linkeidin-svg {
+            cursor: pointer;
+            position: relative;
+            right: 100px;
+            top: 30px;
+            opacity: 0;
+            img {
+              filter: drop-shadow(-5px 5px 0 #252525)
+                drop-shadow(1px 1px 0 #252525) drop-shadow(1px -1px 0 #252525)
+                drop-shadow(-1px -1px 0 #252525);
+            }
+          }
+          .github-svg {
+            cursor: pointer;
+            position: relative;
+            left: 100px;
+            top: 30px;
+            opacity: 0;
+            opacity: 0;
+            img {
+              filter: drop-shadow(-5px 5px 0 #252525)
+                drop-shadow(1px 1px 0 #252525) drop-shadow(1px -1px 0 #252525)
+                drop-shadow(-1px -1px 0 #252525);
+            }
+          }
+        }
+      }
+    }
+  </style>
+  <body>
+    <div id="loader" class="loader">
+      <canvas
+        id="dotlottie-canvas"
+        class="heart-lottie"
+        style="width: 300px; height: 300px; margin-bottom: 60px"
+      ></canvas>
+      <div id="progress-container">
+        <div id="progress-bar"></div>
+      </div>
+    </div>
+
+    <section class="landing-page">
+      <div data-scroll-container>
+        <div class="first-text-block">
+          <div class="wrapper-knocks">
+            <div class="knock-one">YOUR BRAND</div>
+          </div>
+          <div class="wrapper-knocks">
+            <div class="knock-two">YOUR STORY</div>
+          </div>
+          <div class="wrapper-knocks">
+            <div class="knock-three">YOUR SUCCESS</div>
+          </div>
+        </div>
+        <div class="pictures">
+          <div class="picture-one">
+            <img src="img/heart-picture1.png" alt="linkeidin-svg" />
+          </div>
+          <div class="picture-two">
+            <img src="img/heart-picture2.png" alt="github-svg" />
+          </div>
+        </div>
+        <div class="contact-me-block">
+          <div class="wrapper-contact-me">
+            <div class="contact-me">contact us</div>
+          </div>
+          <div class="icons">
+            <div class="linkeidin-svg">
+              <img
+                src="img/linkiedin.svg"
+                alt="linkeidin-svg"
+                width="100"
+                height="100"
+                onclick="window.open('https://www.linkedin.com/company/s-k-it', '_blank')"
+              />
+            </div>
+            <div class="github-svg">
+              <img
+                src="img/mail.svg"
+                alt="github-svg"
+                width="100"
+                height="100"
+                onclick="window.open('mailto:hello@skitstudio.com', '_blank')"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="heart-app">
+      <div id="heart-app" />
+    </section>
+    
+    <script src="https://unpkg.com/lenis@1.1.17/dist/lenis.min.js"></script>
+    
+  </body>
+</html>
