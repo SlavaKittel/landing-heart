@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content"
     />
-    <link rel="icon" type="image" href="/img/Spoint-logo.png" />
+    <link rel="icon" type="image" href="/img/s-logo.svg" />
     <link
       href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Saira:wght@100;200;300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
@@ -18,9 +18,30 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
       rel="stylesheet"
     />
-    <title>slavakittel-portfolio</title>
+    <title>Your langing page</title>
   </head>
   <style type="text/css" media="screen">
+    html.lenis,
+    html.lenis body {
+      height: auto;
+    }
+
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+
+    .lenis.lenis-stopped {
+      overflow: clip;
+    }
+
+    .lenis.lenis-smooth iframe {
+      pointer-events: none;
+    }
+
     html {
       touch-action: pan-y;
       -webkit-touch-callout: none;
@@ -140,6 +161,58 @@
           }
         }
       }
+      .pictures {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        max-width: 100%;
+        overflow: hidden;
+        .picture-one {
+          position: relative;
+          height: 60%;
+          max-width: 80%;
+          aspect-ratio: 3 / 4;
+          object-fit: cover;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgb(0, 0, 0, 0.6);
+          overflow: hidden;
+          border: solid #e7bebe;
+          border-width: thick;
+          border-radius: 10px;
+          box-sizing: border-box;
+          rotate: 15deg;
+          img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
+        .picture-two {
+          position: absolute;
+          height: 60%;
+          max-width: 80%;
+          aspect-ratio: 3 / 4;
+          object-fit: cover;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgb(0, 0, 0, 0.6);
+          overflow: hidden;
+          border: solid #e7bebe;
+          border-width: thick;
+          border-radius: 10px;
+          box-sizing: border-box;
+          rotate: 0deg;
+          img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
+      }
       .contact-me-block {
         position: relative;
         display: flex;
@@ -172,6 +245,11 @@
             right: 100px;
             top: 30px;
             opacity: 0;
+            img {
+              filter: drop-shadow(-5px 5px 0 #252525)
+                drop-shadow(1px 1px 0 #252525) drop-shadow(1px -1px 0 #252525)
+                drop-shadow(-1px -1px 0 #252525);
+            }
           }
           .github-svg {
             cursor: pointer;
@@ -179,6 +257,12 @@
             left: 100px;
             top: 30px;
             opacity: 0;
+            opacity: 0;
+            img {
+              filter: drop-shadow(-5px 5px 0 #252525)
+                drop-shadow(1px 1px 0 #252525) drop-shadow(1px -1px 0 #252525)
+                drop-shadow(-1px -1px 0 #252525);
+            }
           }
         }
       }
@@ -200,18 +284,26 @@
       <div data-scroll-container>
         <div class="first-text-block">
           <div class="wrapper-knocks">
-            <div class="knock-one">knock knock knock</div>
+            <div class="knock-one">YOUR BRAND</div>
           </div>
           <div class="wrapper-knocks">
-            <div class="knock-two">knock knock knock</div>
+            <div class="knock-two">YOUR STORY</div>
           </div>
           <div class="wrapper-knocks">
-            <div class="knock-three">knock knock knock</div>
+            <div class="knock-three">YOUR SUCCESS</div>
+          </div>
+        </div>
+        <div class="pictures">
+          <div class="picture-one">
+            <img src="img/heart-picture1.png" alt="linkeidin-svg" />
+          </div>
+          <div class="picture-two">
+            <img src="img/heart-picture2.png" alt="github-svg" />
           </div>
         </div>
         <div class="contact-me-block">
           <div class="wrapper-contact-me">
-            <div class="contact-me">contact me</div>
+            <div class="contact-me">contact us</div>
           </div>
           <div class="icons">
             <div class="linkeidin-svg">
@@ -220,16 +312,16 @@
                 alt="linkeidin-svg"
                 width="100"
                 height="100"
-                onclick="window.open('https://www.linkedin.com/in/slavakittel/', '_blank')"
+                onclick="window.open('https://www.linkedin.com/company/s-k-it', '_blank')"
               />
             </div>
             <div class="github-svg">
               <img
-                src="img/github.svg"
+                src="img/mail.svg"
                 alt="github-svg"
                 width="100"
                 height="100"
-                onclick="window.open('https://github.com/SlavaKittel', '_blank')"
+                onclick="window.open('mailto:hello@skitstudio.com', '_blank')"
               />
             </div>
           </div>
@@ -241,5 +333,16 @@
       <div id="heart-app" />
     </section>
     <script type="module" src="./heart-webgl.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.17/dist/lenis.min.js"></script>
+    <script type="module">
+      const lenis = new Lenis({
+        syncTouch: true,
+      });
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    </script>
   </body>
 </html>

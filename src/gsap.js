@@ -52,6 +52,30 @@ gsap.to(".knock-three", {
   ease: "back.out(1.3)",
 });
 
+// PICTURES //
+
+// knocks fade in
+gsap.to(".picture-one", {
+  scrollTrigger: {
+    trigger: ".picture-one",
+    scrub: true,
+  },
+  x: -205,
+  y: 0,
+  rotate: -30,
+  ease: "expoScale(0.1, 7, none)",
+});
+gsap.to(".picture-two", {
+  scrollTrigger: {
+    trigger: ".picture-two",
+    scrub: true,
+  },
+  x: 205,
+  y: 0,
+  rotate: 25,
+  ease: "expoScale(0.1, 7, none)",
+});
+
 // FOOTER //
 
 gsap.to(".contact-me", {

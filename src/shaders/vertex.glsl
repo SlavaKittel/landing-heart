@@ -117,7 +117,7 @@ void main() {
   // vec3 segVertice = transformed - mousePos;
   // vec3 dirVertice = normalize(seg) * 0.6;
   // float distVertice = length(seg) * 4.;
-  // instanceTransformed += curlNoise(instanceTransformed * uTime * 1.) * 0.006;
+  // instanceTransformed += cnoise(instanceTransformed * uTime * 1.) * 0.006;
   // transformed.x += 2.;
 
   instanceTransformed += cnoise(instanceTransformed * uTime * 0.5) * 0.02;

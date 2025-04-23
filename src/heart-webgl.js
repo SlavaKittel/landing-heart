@@ -28,22 +28,12 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.z = 10;
 
-// Light and Ambient
-// const ambientLight = new THREE.AmbientLight(0xffffff, 20);
-// scene.add(ambientLight);
-// const pointerLight = new THREE.PointLight(0xffffff, 10);
-// pointerLight.position.set(3, 3, 3);
-// scene.add(pointerLight);
-// const lightHelper = new THREE.PointLightHelper(pointerLight, 1);
-// scene.add(lightHelper);
-
 // Marker for Debug
 const vMarkerMouseDamp = new THREE.Vector3();
 let marker = new THREE.Mesh(
   new THREE.SphereGeometry(0.2, 16, 8),
   new THREE.MeshBasicMaterial({ color: "red", wireframe: true })
 );
-// scene.add(marker);
 
 // Loading Manager
 const loadingScreen = document.getElementById("loader");
@@ -184,90 +174,73 @@ const loader = new GLTFLoader(loadingManager);
 
 let instancedMeshHeart;
 
-loader.load(
-  "./glb-models/real-heart-frame.glb",
-  function (gltf) {
-    heartSkeleton = gltf.scene;
-    heartSkeleton.scale.set(0.336, 0.336, 0.336);
-    heartSkeleton.rotateX(-Math.PI / 2);
-    heartSkeleton.children[0].material.transparent = true;
-    heartSkeleton.children[0].material.opacity = 0.5;
-    heartSkeleton.children[0].material.color = new THREE.Color(0x000000);
-    scene.add(heartSkeleton);
+loader.load("./glb-models/real-heart-frame.glb", function (gltf) {
+  heartSkeleton = gltf.scene;
+  heartSkeleton.scale.set(0.336, 0.336, 0.336);
+  heartSkeleton.rotateX(-Math.PI / 2);
+  heartSkeleton.children[0].material.transparent = true;
+  heartSkeleton.children[0].material.opacity = 0.5;
+  heartSkeleton.children[0].material.color = new THREE.Color(0x000000);
+  scene.add(heartSkeleton);
 
-    // Position and scale of -Inside- Heart Geometry
-    const heartGeometry = heartSkeleton.children[0].geometry;
-    heartGeometry.scale(3, 3, 3);
-    heartGeometry.rotateX(Math.PI / 2);
+  // Position and scale of -Inside- Heart Geometry
+  const heartGeometry = heartSkeleton.children[0].geometry;
+  heartGeometry.scale(3, 3, 3);
+  heartGeometry.rotateX(Math.PI / 2);
 
-    // Merge vertices for -Instanced- Heart Geometry
-    const mergedHeartGeometry =
-      BufferGeometryUtils.mergeVertices(heartGeometry);
+  // Merge vertices for -Instanced- Heart Geometry
+  const mergedHeartGeometry = BufferGeometryUtils.mergeVertices(heartGeometry);
 
-    // Create -Instanced- mesh
-    const meshPoints = new THREE.Points(mergedHeartGeometry, shaderMaterial);
-    const positionAttribute = meshPoints.geometry.attributes.position;
-    const instancedCount = positionAttribute.count;
+  // Create -Instanced- mesh
+  const meshPoints = new THREE.Points(mergedHeartGeometry, shaderMaterial);
+  const positionAttribute = meshPoints.geometry.attributes.position;
+  const instancedCount = positionAttribute.count;
 
-    // -Instanced- Mesh Heart
-    instancedMeshHeart = new THREE.InstancedMesh(
-      instancedGeometry,
-      shaderMaterial,
-      instancedCount
-    );
-    const instancePositions = new Float32Array(instancedCount * 3);
-    const instanceRotations = new Float32Array(instancedCount * 3);
-    const instancedScale = new Float32Array(instancedCount);
-    for (let i = 0; i < instancedCount; i++) {
-      // Position
-      instancePositions[i * 3 + 0] = positionAttribute.array[i * 3 + 0];
-      instancePositions[i * 3 + 1] = positionAttribute.array[i * 3 + 1];
-      instancePositions[i * 3 + 2] = positionAttribute.array[i * 3 + 2];
-      instancePositions[i * 3 + 1] += (Math.random() - 0.5) * 0.08;
-      // Random rotation
-      instanceRotations[i * 3 + 0] = Math.random() * 0.2 * Math.PI * 2;
-      instanceRotations[i * 3 + 1] = Math.random() * 0.1 * Math.PI * 2;
-      instanceRotations[i * 3 + 2] = Math.random() * 0.1 * Math.PI * 2;
-
-      instancedScale[i] = Math.random();
-    }
-    instancedMeshHeart.geometry.setAttribute(
-      "instancePosition",
-      new THREE.InstancedBufferAttribute(instancePositions, 3)
-    );
-    instancedMeshHeart.geometry.setAttribute(
-      "instanceRotation",
-      new THREE.InstancedBufferAttribute(instanceRotations, 3)
-    );
-    instancedMeshHeart.geometry.setAttribute(
-      "instanceScale",
-      new THREE.InstancedBufferAttribute(instancedScale, 1)
-    );
-
-    scene.add(instancedMeshHeart);
+  // -Instanced- Mesh Heart
+  instancedMeshHeart = new THREE.InstancedMesh(
+    instancedGeometry,
+    shaderMaterial,
+    instancedCount
+  );
+  const instancePositions = new Float32Array(instancedCount * 3);
+  const instanceRotations = new Float32Array(instancedCount * 3);
+  const instancedScale = new Float32Array(instancedCount);
+  for (let i = 0; i < instancedCount; i++) {
+    // Position
+    instancePositions[i * 3 + 0] = positionAttribute.array[i * 3 + 0];
+    instancePositions[i * 3 + 1] = positionAttribute.array[i * 3 + 1];
+    instancePositions[i * 3 + 2] = positionAttribute.array[i * 3 + 2];
+    instancePositions[i * 3 + 1] += (Math.random() - 0.5) * 0.08;
+    // Random rotation
+    instanceRotations[i * 3 + 0] = Math.random() * 0.2 * Math.PI * 2;
+    instanceRotations[i * 3 + 1] = Math.random() * 0.1 * Math.PI * 2;
+    instanceRotations[i * 3 + 2] = Math.random() * 0.1 * Math.PI * 2;
+    instancedScale[i] = Math.random();
   }
-  // function (xhr) {
-  //   const progress = (xhr.loaded / xhr.total) * 100;
-  //   progressBar.style.width = progress + "%";
-  //   progressText.textContent = Math.round(progress) + "%";
-
-  //   // Optional: Monitor progress
-  //   console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-  // },
-  // function (error) {
-  //   console.error("An error happened", error);
-  // }
-);
+  instancedMeshHeart.geometry.setAttribute(
+    "instancePosition",
+    new THREE.InstancedBufferAttribute(instancePositions, 3)
+  );
+  instancedMeshHeart.geometry.setAttribute(
+    "instanceRotation",
+    new THREE.InstancedBufferAttribute(instanceRotations, 3)
+  );
+  instancedMeshHeart.geometry.setAttribute(
+    "instanceScale",
+    new THREE.InstancedBufferAttribute(instancedScale, 1)
+  );
+  scene.add(instancedMeshHeart);
+});
 
 // Resize
-window.addEventListener("resize", () => {
-  if (getMobileDevice()) return;
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-  camera.aspect = w / h;
-  renderer.setSize(w, h, false);
-  camera.updateProjectionMatrix();
-});
+// TODO check mobile device, maybe leave resize for mobile
+if (!getMobileDevice()) {
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+}
 
 // Renderer in the DOM
 const renderer = new THREE.WebGLRenderer({
@@ -334,5 +307,4 @@ function animate() {
   // Render
   renderer.render(scene, camera);
 }
-// gsap.ticker.add(animate); -  same like animate()
 animate();
