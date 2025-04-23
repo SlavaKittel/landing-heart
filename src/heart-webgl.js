@@ -58,7 +58,7 @@ loadingManager.onLoad = function () {
     document.body.style.overflow = "visible";
 
     const script = document.createElement("script");
-    script.src = "./gsap.js";
+    script.src = "gsap.js";
     script.type = "module";
     document.body.appendChild(script);
     script.onload;
